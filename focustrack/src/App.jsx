@@ -7,6 +7,7 @@ import ResetPasswordPage from './pages/ResetPasswordPage';
 import HomePage from './pages/HomePage';
 import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute';
+import GoalDetailsPage from './pages/GoalDetailsPage';
 
 function App() {
   const location = useLocation();
@@ -34,6 +35,9 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route path="/goals/:goalId" element={<GoalDetailsPage isShared={false} />} />
+        <Route path="/shared-goals/:goalId" element={<GoalDetailsPage isShared={true} />} />
+
         <Route
           path="/home"
           element={
