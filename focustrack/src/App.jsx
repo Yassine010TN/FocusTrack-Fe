@@ -8,6 +8,14 @@ import HomePage from './pages/HomePage';
 import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute';
 import GoalDetailsPage from './pages/GoalDetailsPage';
+import SharedGoalPage from "./pages/SharedGoalPage";
+import ContactsPage from './pages/ContactsPage';
+import SearchUser from './pages/contacts/SearchUser';
+import ContactsList from './pages/contacts/ContactsList';
+import SentInvitations from './pages/contacts/SentInvitations';
+import ReceivedInvitations from './pages/contacts/ReceivedInvitations';
+import NewGoalPage from './pages/NewGoalPage';
+import ProfilePage from './pages/ProfilePage';
 
 function App() {
   const location = useLocation();
@@ -35,9 +43,32 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
-        <Route path="/goals/:goalId" element={<GoalDetailsPage isShared={false} />} />
+        <Route path="/goals/:goalId" element={<GoalDetailsPage />} />
+        <Route path="/shared-goals/:goalId" element={<SharedGoalPage />} />
         <Route path="/shared-goals/:goalId" element={<GoalDetailsPage isShared={true} />} />
-
+        <Route path="/contacts" element={<ContactsPage />}>
+          <Route path="search" element={<SearchUser />} />
+          <Route path="list" element={<ContactsList />} />
+          <Route path="sent" element={<SentInvitations />} />
+          <Route path="received" element={<ReceivedInvitations />} />
+          <Route index element={<Navigate to="search" replace />} />
+        </Route>
+        <Route
+          path="/goals/new"
+          element={
+            <ProtectedRoute>
+              <NewGoalPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/home"
           element={

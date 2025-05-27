@@ -61,6 +61,9 @@ export default function HomePage() {
                   <h3 className="font-bold text-lg text-blue-800 mb-1">{goal.description}</h3>
                   <p className="text-sm text-gray-700">📅 {goal.startDate} → {goal.dueDate}</p>
                   <p className="text-sm text-gray-700 mt-1">
+                    📊 Progress: {goal.progress}%
+                  </p>
+                  <p className="text-sm text-gray-700 mt-1">
                     🔥 Priority: {"★".repeat(priority)}{"☆".repeat(5 - priority)}
                   </p>
                 </div>
@@ -69,7 +72,6 @@ export default function HomePage() {
           </div>
         )}
       </div>
-
 
       <div>
         <h2 className="text-lg font-semibold mb-2">🤝 Shared With Me</h2>
@@ -87,7 +89,12 @@ export default function HomePage() {
                 >
                   <h3 className="font-bold text-lg text-blue-800 mb-1">{goal.description}</h3>
                   <p className="text-sm text-gray-700">📅 {goal.startDate} → {goal.dueDate}</p>
-                  <p className="text-sm text-gray-700">🔥 Priority: {"★".repeat(priority)}{"☆".repeat(5 - priority)}</p>
+                  <p className="text-sm text-gray-700 mt-1">
+                    📊 Progress: {goal.progress}%
+                  </p>
+                  <p className="text-sm text-gray-700">
+                    🔥 Priority: {"★".repeat(priority)}{"☆".repeat(5 - priority)}
+                  </p>
                   <p className="text-sm text-gray-600 mt-1">👤 Shared by: <span className="font-medium">{ownerEmail}</span></p>
                 </div>
               );
@@ -95,7 +102,6 @@ export default function HomePage() {
           </div>
         )}
       </div>
-
     </div>
   );
 }
