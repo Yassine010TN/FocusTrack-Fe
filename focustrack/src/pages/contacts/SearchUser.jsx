@@ -16,9 +16,12 @@ export default function SearchUser() {
     setSendSuccess('');
     setSendError('');
     try {
-      const response = await fetch(`http://localhost:8080/api/users/search?email=${encodeURIComponent(email)}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await fetch(
+        `http://localhost:8080/api/users/search?email=${encodeURIComponent(email)}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       if (!response.ok) {
         setError('User not found');
         return;
@@ -36,10 +39,13 @@ export default function SearchUser() {
     setSendSuccess('');
     setSendError('');
     try {
-      const response = await fetch(`http://localhost:8080/api/users/invitations?contactId=${result.id}`, {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await fetch(
+        `http://localhost:8080/api/users/invitations?contactId=${result.id}`,
+        {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       if (!response.ok) {
         const errorText = await response.text();
         throw new Error(errorText || 'Failed to send request');
@@ -53,26 +59,28 @@ export default function SearchUser() {
   };
 
   return (
-    <div className="max-w-md mx-auto">
-      <input
-        type="email"
-        placeholder="Enter email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        className="border p-2 rounded w-full mb-2"
-      />
-      <button
-        onClick={handleSearch}
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-      >
-        Search
-      </button>
+    <div className="max-w-xl mx-auto mt-6">
+      <div className="flex items-center gap-3 mb-4">
+        <input
+          type="email"
+          placeholder="Enter email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="flex-1 border p-2 rounded shadow-sm"
+        />
+        <button
+          onClick={handleSearch}
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        >
+          Search
+        </button>
+      </div>
 
-      {error && <p className="mt-2 text-red-500">{error}</p>}
+      {error && <p className="text-red-600 mb-4">{error}</p>}
 
       {result && (
-        <div className="mt-4 p-4 border rounded shadow flex justify-between items-center">
-          <div>
+        <div className="bg-gray-50 border border-gray-300 p-4 rounded shadow flex justify-between items-start">
+          <div className="text-sm leading-relaxed">
             <p><strong>Email:</strong> {result.email}</p>
             <p><strong>Description:</strong> {result.description || '-'}</p>
           </div>
@@ -88,8 +96,8 @@ export default function SearchUser() {
         </div>
       )}
 
-      {sendSuccess && <p className="mt-2 text-green-600">{sendSuccess}</p>}
-      {sendError && <p className="mt-2 text-red-600">{sendError}</p>}
+      {sendSuccess && <p className="mt-4 text-green-600">{sendSuccess}</p>}
+      {sendError && <p className="mt-4 text-red-600">{sendError}</p>}
     </div>
   );
 }

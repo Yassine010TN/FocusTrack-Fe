@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useState } from "react";
+import { useSearchParams, Link } from "react-router-dom";
 
 export default function ResetPasswordPage() {
   const [searchParams] = useSearchParams();
@@ -24,28 +24,36 @@ export default function ResetPasswordPage() {
       setError("Passwords do not match.");
       return;
     }
-
+    if (newPassword.length < 6) {
+      setError("Password must be at least 6 characters long.");
+      return;
+    }
     try {
       const response = await fetch("http://localhost:8080/api/auth/reset-password", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token, newPassword }),
       });
 
       if (!response.ok) throw new Error("Password reset failed");
 
-      setMessage("Password has been reset successfully.");
+      setMessage("✅ Password has been reset successfully.");
     } catch (err) {
       setError(err.message);
     }
   };
 
   return (
-    <div style={{ minHeight: "100vh", display: "flex", justifyContent: "center", alignItems: "center", background: "#f0f4f8" }}>
-      <form onSubmit={handleReset} style={{ background: "white", padding: "2rem", borderRadius: "10px", width: "300px", boxShadow: "0 2px 10px rgba(0,0,0,0.1)" }}>
-        <h2 style={{ marginBottom: "1rem", color: "#007bff", textAlign: "center" }}>🎯 Reset Password</h2>
+    <div style={pageStyle}>
+      <div style={leftStyle}>
+        <img src="/focustrack.png" alt="FocusTrack Logo" style={logoStyle} />
+        <h1 style={brandTextStyle}>FocusTrack</h1>
+        <p style={sloganStyle}>Plan Goals. Stay on Track.</p>
+      </div>
+
+      <form onSubmit={handleReset} style={formStyle}>
+        <h2 style={formTitle}>🔒 Reset Password</h2>
+
         <input
           type="password"
           value={newPassword}
@@ -62,18 +70,75 @@ export default function ResetPasswordPage() {
           required
           style={inputStyle}
         />
+
         <button type="submit" style={buttonStyle}>Reset Password</button>
-        {message && <p style={{ color: "green", fontSize: "0.9rem" }}>{message}</p>}
-        {error && <p style={{ color: "red", fontSize: "0.9rem" }}>{error}</p>}
+
+        <p style={{ marginTop: "1rem", textAlign: "center" }}>
+          <Link to="/login" style={linkStyle}>Back to Login</Link>
+        </p>
+
+        {message && <p style={{ color: "green", textAlign: "center" }}>{message}</p>}
+        {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
       </form>
     </div>
   );
 }
 
+// Styling (shared with Login/Register pages)
+const pageStyle = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  minHeight: "100vh",
+  background: "#eaf4fb",
+  padding: "2rem",
+};
+
+const leftStyle = {
+  marginRight: "4rem",
+  textAlign: "right",
+};
+
+const logoStyle = {
+  width: "80px",
+  height: "80px",
+  marginBottom: "0.5rem",
+};
+
+const brandTextStyle = {
+  fontSize: "2.5rem",
+  color: "#007bff",
+  margin: 0,
+  fontWeight: "bold",
+};
+
+const sloganStyle = {
+  fontSize: "1.1rem",
+  color: "#333",
+  maxWidth: "250px",
+  marginTop: "0.5rem",
+};
+
+const formStyle = {
+  background: "white",
+  padding: "2rem",
+  borderRadius: "10px",
+  width: "320px",
+  boxShadow: "0 2px 12px rgba(0,0,0,0.1)",
+};
+
+const formTitle = {
+  color: "#007bff",
+  textAlign: "center",
+  fontSize: "1.5rem",
+  marginBottom: "1.5rem",
+};
+
 const inputStyle = {
   display: "block",
   width: "100%",
-  padding: "10px",
+  padding: "12px",
+  fontSize: "1rem",
   marginBottom: "1rem",
   border: "1px solid #ccc",
   borderRadius: "5px",
@@ -81,10 +146,16 @@ const inputStyle = {
 
 const buttonStyle = {
   width: "100%",
-  padding: "10px",
+  padding: "12px",
+  fontSize: "1rem",
   background: "#007bff",
   color: "white",
   border: "none",
   borderRadius: "5px",
   cursor: "pointer",
+};
+
+const linkStyle = {
+  color: "#007bff",
+  textDecoration: "none",
 };

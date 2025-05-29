@@ -1,5 +1,9 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
 
 export default function NewGoalPage() {
   const [description, setDescription] = useState("");
@@ -13,157 +17,155 @@ export default function NewGoalPage() {
 
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
+  const query = useQuery();
+
+  const parentGoalId = query.get("parentGoalId");
+  const isStepGoal = !!parentGoalId;
+  const orderLabel = isStepGoal ? "Step Order *" : "Order *";
+
+  const validateForm = () => {
+    if (!description.trim()) return setError("Description is required"), false;
+    if (!startDate) return setError("Start date is required"), false;
+    if (!dueDate) return setError("Due date is required"), false;
+    if (!order || order < 1) return setError(`${orderLabel} must be 1 or greater`), false;
+    return true;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setSuccess("");
-
-    // Simple validation
-    if (!description.trim()) {
-      setError("Description is required");
-      return;
-    }
-    if (!startDate) {
-      setError("Start date is required");
-      return;
-    }
-    if (!dueDate) {
-      setError("Due date is required");
-      return;
-    }
+    if (!validateForm()) return;
 
     setSubmitting(true);
 
     try {
-      const res = await fetch("http://localhost:8080/api/goals/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          description,
-          priority: Number(priority),
+      let url = "";
+      const headers = { Authorization: `Bearer ${token}` };
+
+      if (isStepGoal) {
+        const params = new URLSearchParams({
+          description: description.trim(),
+          priority: priority.toString(),
           startDate,
           dueDate,
-          order: Number(order),
+          stepOrder: order.toString(),
+        });
+        url = `http://localhost:8080/api/goals/${parentGoalId}/steps?${params.toString()}`;
+        headers["Content-Type"] = "application/json";
+      } else {
+        url = "http://localhost:8080/api/goals/";
+        headers["Content-Type"] = "application/json";
+      }
+
+      const res = await fetch(url, {
+        method: "POST",
+        headers,
+        ...(isStepGoal ? {} : {
+          body: JSON.stringify({
+            description: description.trim(),
+            priority: Number(priority),
+            startDate,
+            dueDate,
+            order: Number(order),
+          }),
         }),
       });
 
-      if (!res.ok) {
-        const errText = await res.text();
-        throw new Error(errText || "Failed to create goal");
+      if (!res.ok) throw new Error(await res.text() || "Failed to create goal");
+
+      setSuccess(isStepGoal ? "Step goal created successfully!" : "Goal created successfully!");
+      if (!isStepGoal) {
+        setDescription(""); setPriority(1); setStartDate(""); setDueDate(""); setOrder(1);
       }
 
-      setSuccess("Goal created successfully!");
-      // Optionally clear form or redirect to goals page
-      setDescription("");
-      setPriority(1);
-      setStartDate("");
-      setDueDate("");
-      setOrder(1);
-
-      // Redirect to /home or goals list after short delay
-      setTimeout(() => {
-        navigate("/home");
-      }, 1500);
+      setTimeout(() => navigate(isStepGoal ? `/goals/${parentGoalId}` : "/home"), 1500);
     } catch (err) {
-      setError(err.message);
+      setError(err.message || "An error occurred.");
     } finally {
       setSubmitting(false);
     }
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded shadow mt-10">
-      <h1 className="text-2xl font-bold mb-6">Create New Goal</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
+  <div className="min-h-screen bg-blue-50 py-12">
+    <div className="max-w-xl mx-auto bg-white p-8 rounded-lg shadow-md">
+      <h1 className="text-2xl font-bold mb-6 text-blue-800">
+        {isStepGoal ? "➕ Create New Step Goal" : "🎯 Create New Goal"}
+      </h1>
 
+      <form onSubmit={handleSubmit} className="space-y-5">
         <div>
-          <label className="block font-semibold mb-1" htmlFor="description">
-            Description *
-          </label>
+          <label className="font-semibold block mb-1">Description *</label>
           <input
-            id="description"
             type="text"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="w-full border border-gray-300 rounded px-3 py-2"
-            required
+            className="w-full border border-gray-300 px-4 py-2 rounded"
           />
         </div>
 
         <div>
-          <label className="block font-semibold mb-1" htmlFor="priority">
-            Priority (1-5) *
-          </label>
+          <label className="font-semibold block mb-1">Priority (1–5) *</label>
           <input
-            id="priority"
             type="number"
             min="1"
             max="5"
             value={priority}
-            onChange={(e) => setPriority(e.target.value)}
-            className="w-24 border border-gray-300 rounded px-3 py-2"
-            required
+            onChange={(e) => setPriority(Number(e.target.value))}
+            className="w-24 border border-gray-300 px-3 py-2 rounded"
           />
         </div>
 
         <div>
-          <label className="block font-semibold mb-1" htmlFor="startDate">
-            Start Date *
-          </label>
+          <label className="font-semibold block mb-1">Start Date *</label>
           <input
-            id="startDate"
             type="date"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
-            className="w-full border border-gray-300 rounded px-3 py-2"
-            required
+            className="w-full border border-gray-300 px-4 py-2 rounded"
           />
         </div>
 
         <div>
-          <label className="block font-semibold mb-1" htmlFor="dueDate">
-            Due Date *
-          </label>
+          <label className="font-semibold block mb-1">Due Date *</label>
           <input
-            id="dueDate"
             type="date"
             value={dueDate}
             onChange={(e) => setDueDate(e.target.value)}
-            className="w-full border border-gray-300 rounded px-3 py-2"
-            required
+            className="w-full border border-gray-300 px-4 py-2 rounded"
           />
         </div>
 
         <div>
-          <label className="block font-semibold mb-1" htmlFor="order">
-            Order *
-          </label>
+          <label className="font-semibold block mb-1">{orderLabel}</label>
           <input
-            id="order"
             type="number"
             min="1"
             value={order}
-            onChange={(e) => setOrder(e.target.value)}
-            className="w-24 border border-gray-300 rounded px-3 py-2"
-            required
+            onChange={(e) => setOrder(Number(e.target.value))}
+            className="w-24 border border-gray-300 px-3 py-2 rounded"
           />
         </div>
 
-        {error && <p className="text-red-600">{error}</p>}
-        {success && <p className="text-green-600">{success}</p>}
+        {error && <p className="text-red-600 text-sm">{error}</p>}
+        {success && <p className="text-green-600 text-sm">{success}</p>}
 
         <button
           type="submit"
           disabled={submitting}
           className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
         >
-          {submitting ? "Creating..." : "Create Goal"}
+          {submitting
+            ? isStepGoal
+              ? "Creating step goal..."
+              : "Creating..."
+            : isStepGoal
+            ? "Create Step Goal"
+            : "Create Goal"}
         </button>
       </form>
     </div>
+  </div>
   );
 }

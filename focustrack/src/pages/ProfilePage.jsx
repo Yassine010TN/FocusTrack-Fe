@@ -71,19 +71,21 @@ export default function ProfilePage() {
       setPasswordLoading(false);
       return;
     }
-
+    if (currentPassword !== newPassword) {
+      setPasswordError("Passwords do not match.");
+    }
+    if (currentPassword.length < 6) {
+      setPasswordError("Passwords is too short.");
+    }
     try {
       // Adjust endpoint & request body according to your backend API
-      const res = await fetch("http://localhost:8080/api/users/change-password", {
-        method: "POST",
+      const res = await fetch("http://localhost:8080/api/users/me", {
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          currentPassword,
-          newPassword,
-        }),
+        body: JSON.stringify({ password: newPassword }),
       });
 
       if (!res.ok) {
@@ -131,7 +133,8 @@ export default function ProfilePage() {
   if (error) return <div className="text-center p-8 text-red-500">{error}</div>;
 
   return (
-    <div className="max-w-xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+  <div className="min-h-screen bg-blue-50 py-12">
+    <div className="max-w-xl mx-auto bg-white p-6 rounded-lg shadow-md">
       <h1 className="text-2xl font-bold mb-6 text-blue-800">Profile Settings</h1>
 
       <form onSubmit={handleProfileUpdate} className="space-y-4">
@@ -162,7 +165,7 @@ export default function ProfilePage() {
           type="submit"
           className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
         >
-          Save Profile
+          Save Changes
         </button>
         {success && <p className="text-green-600 mt-2">{success}</p>}
         {error && <p className="text-red-600 mt-2">{error}</p>}
@@ -173,7 +176,7 @@ export default function ProfilePage() {
       <h2 className="text-xl font-semibold mb-4 text-blue-800">Change Password</h2>
       <form onSubmit={handleChangePassword} className="space-y-4 max-w-sm">
         <div>
-          <label className="block font-semibold mb-1" htmlFor="currentPassword">Current Password:</label>
+          <label className="block font-semibold mb-1" htmlFor="currentPassword">New Password:</label>
           <input
             id="currentPassword"
             type="password"
@@ -184,7 +187,7 @@ export default function ProfilePage() {
           />
         </div>
         <div>
-          <label className="block font-semibold mb-1" htmlFor="newPassword">New Password:</label>
+          <label className="block font-semibold mb-1" htmlFor="newPassword">Repeat New Password:</label>
           <input
             id="newPassword"
             type="password"
@@ -219,5 +222,6 @@ export default function ProfilePage() {
         {deleteError && <p className="text-red-600 mt-2">{deleteError}</p>}
       </div>
     </div>
+  </div>
   );
 }

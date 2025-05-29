@@ -1,96 +1,76 @@
-import { Link, NavLink } from 'react-router-dom';
-import { useState, useRef } from 'react';
+import { Link, NavLink } from "react-router-dom";
+import { useState, useRef } from "react";
 
 export default function Navbar() {
   const [contactsOpen, setContactsOpen] = useState(false);
   const timeoutRef = useRef(null);
 
   const handleMouseEnter = () => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
     setContactsOpen(true);
   };
 
   const handleMouseLeave = () => {
-    // Delay closing the menu by 200ms to prevent flicker
-    timeoutRef.current = setTimeout(() => {
-      setContactsOpen(false);
-    }, 200);
+    timeoutRef.current = setTimeout(() => setContactsOpen(false), 200);
   };
 
   return (
-    <nav className="flex items-center justify-between p-4 bg-blue-600 text-white">
-      {/* Left side: Logo / Name */}
-      <div className="text-2xl font-bold tracking-wide cursor-pointer">
-        <NavLink to="/home" className="hover:underline">
-          FocusTrack
+    <nav className="bg-blue-600 text-white px-6 py-3 shadow-md">
+      <div className="max-w-screen-xl mx-auto flex items-center justify-between">
+        {/* Logo & Name */}
+        <NavLink to="/home" className="flex items-center space-x-2">
+          <img
+            src="/focustrack.png"
+            alt="FocusTrack Logo"
+            className="w-8 h-8 rounded-md shadow-sm"
+          />
+          <span className="text-xl font-bold tracking-wide hover:underline">
+            FocusTrack
+          </span>
         </NavLink>
-      </div>
 
-      {/* Right side: Nav items */}
-      <div className="flex items-center space-x-6">
-        <NavLink to="/home" className="hover:underline">
-          Home
-        </NavLink>
+        {/* Navigation Links */}
+        <div className="flex items-center space-x-6 text-sm font-medium">
+          <NavLink to="/home" className="hover:underline">
+            Home
+          </NavLink>
 
-        {/* Contacts dropdown container */}
-        <div
-          className="relative"
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-        >
-          <button className="focus:outline-none flex items-center space-x-1">
-            <span>Contacts</span>
-            <span>▼</span>
-          </button>
+          <div
+            className="relative"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <button className="hover:underline focus:outline-none">
+              Contacts
+            </button>
+            {contactsOpen && (
+              <div className="absolute right-0 mt-2 w-52 bg-white text-black rounded shadow-md z-50">
+                <Link to="/contacts/search" className="block px-4 py-2 hover:bg-blue-100" onClick={() => setContactsOpen(false)}>
+                  Search User
+                </Link>
+                <Link to="/contacts/list" className="block px-4 py-2 hover:bg-blue-100" onClick={() => setContactsOpen(false)}>
+                  My Contacts
+                </Link>
+                <Link to="/contacts/sent" className="block px-4 py-2 hover:bg-blue-100" onClick={() => setContactsOpen(false)}>
+                  Sent Invitations
+                </Link>
+                <Link to="/contacts/received" className="block px-4 py-2 hover:bg-blue-100" onClick={() => setContactsOpen(false)}>
+                  Received Invitations
+                </Link>
+              </div>
+            )}
+          </div>
 
-          {contactsOpen && (
-            <div className="absolute right-0 mt-2 w-48 bg-white text-black rounded shadow-md z-50">
-              <Link
-                to="/contacts/search"
-                className="block px-4 py-2 hover:bg-blue-100"
-                onClick={() => setContactsOpen(false)}
-              >
-                Search User
-              </Link>
-              <Link
-                to="/contacts/list"
-                className="block px-4 py-2 hover:bg-blue-100"
-                onClick={() => setContactsOpen(false)}
-              >
-                My Contacts
-              </Link>
-              <Link
-                to="/contacts/sent"
-                className="block px-4 py-2 hover:bg-blue-100"
-                onClick={() => setContactsOpen(false)}
-              >
-                Sent Invitations
-              </Link>
-              <Link
-                to="/contacts/received"
-                className="block px-4 py-2 hover:bg-blue-100"
-                onClick={() => setContactsOpen(false)}
-              >
-                Received Invitations
-              </Link>
-            </div>
-          )}
+          <NavLink to="/goals/new" className="hover:underline">
+            New Goal
+          </NavLink>
+          <NavLink to="/profile" className="hover:underline">
+            Profile
+          </NavLink>
+          <NavLink to="/logout" className="hover:underline">
+            Logout
+          </NavLink>
         </div>
-
-        <NavLink
-          to="/goals/new"
-          className="hover:underline"
-        >
-          New Goal
-        </NavLink>
-        <NavLink to="/profile" className="hover:underline">
-          Profile
-        </NavLink>
-        <NavLink to="/logout" className="hover:underline">
-          Logout
-        </NavLink>
       </div>
     </nav>
   );

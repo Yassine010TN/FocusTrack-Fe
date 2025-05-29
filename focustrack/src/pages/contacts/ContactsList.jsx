@@ -25,8 +25,7 @@ export default function ContactsList() {
   };
 
   useEffect(() => {
-    if (!token) return;
-    fetchContacts();
+    if (token) fetchContacts();
   }, [token]);
 
   const handleDelete = async (contactId) => {
@@ -38,7 +37,6 @@ export default function ContactsList() {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!response.ok) throw new Error("Failed to delete contact");
-      // Remove deleted contact from list
       setContacts(contacts.filter(c => c.id !== contactId));
     } catch (err) {
       alert(err.message || "Failed to delete contact");
@@ -47,25 +45,32 @@ export default function ContactsList() {
     }
   };
 
-  if (loading) return <p className="text-center p-4">Loading contacts...</p>;
-  if (error) return <p className="text-center p-4 text-red-500">{error}</p>;
-
-  if (contacts.length === 0) return <p className="text-center p-4">No contacts found.</p>;
+  if (loading)
+    return <p className="text-center text-gray-600 mt-10">Loading contacts...</p>;
+  if (error)
+    return <p className="text-center text-red-600 mt-10">{error}</p>;
+  if (contacts.length === 0)
+    return <p className="text-center text-gray-600 mt-10">No contacts found.</p>;
 
   return (
-    <div className="max-w-md mx-auto p-4 border rounded shadow">
-      <h2 className="text-xl font-semibold mb-4">My Contacts</h2>
-      <ul>
+    <div className="bg-white rounded-lg shadow-md max-w-xl mx-auto mt-6 p-6">
+      <h2 className="text-2xl font-bold text-purple-800 mb-4 flex items-center gap-2">
+        My Contacts
+      </h2>
+
+      <ul className="space-y-3">
         {contacts.map((contact) => (
           <li
             key={contact.id}
-            className="flex justify-between items-center border-b py-2"
+            className="flex justify-between items-center bg-gray-50 border border-gray-300 rounded px-4 py-2"
           >
-            <span>{contact.email || contact.description || "Unnamed Contact"}</span>
+            <span className="text-gray-800 font-medium">
+              {contact.email || contact.description || "Unnamed Contact"}
+            </span>
             <button
               onClick={() => handleDelete(contact.id)}
               disabled={deletingId === contact.id}
-              className="text-red-600 hover:text-red-800 disabled:opacity-50"
+              className="text-red-600 hover:text-red-700 font-medium disabled:opacity-50"
               title="Delete Contact"
             >
               {deletingId === contact.id ? "Deleting..." : "Delete"}

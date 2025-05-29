@@ -36,29 +36,41 @@ export default function ReceivedInvitations() {
     }
   };
 
-  if (loading) return <p>Loading received invitations...</p>;
-  if (error) return <p className="text-red-600">{error}</p>;
-
+  if (loading)
+    return <p className="text-center mt-10 text-gray-600">Loading received invitations...</p>;
+  if (error)
+    return <p className="text-center mt-10 text-red-600">{error}</p>;
   if (receivedInvitations.length === 0)
-    return <p>No received invitations found.</p>;
+    return <p className="text-center mt-10 text-gray-600">No received invitations found.</p>;
 
   return (
-    <div className="p-6">
-      <h2 className="text-xl font-bold mb-4">Received Invitations</h2>
-      <ul>
+    <div className="max-w-3xl mx-auto mt-6 bg-white shadow-md rounded-lg p-6">
+      <h2 className="text-2xl font-bold text-purple-800 mb-4 flex items-center gap-2">
+        Received Invitations
+      </h2>
+
+      <ul className="space-y-3">
         {receivedInvitations.map((inv) => (
-          <li key={inv.id} className="flex justify-between items-center border-b py-2">
-            <span>{inv.senderEmail || inv.contactEmail || "Unknown Email"}</span>
-            <div className="space-x-2">
+          <li
+            key={inv.id}
+            className="flex flex-col md:flex-row justify-between items-start md:items-center border border-gray-300 rounded px-4 py-3 bg-gray-50"
+          >
+            <div className="mb-2 md:mb-0">
+              <p className="text-gray-800 font-medium">{inv.email || inv.contactEmail || "Unknown Email"}</p>
+              {inv.description && (
+                <p className="text-gray-600 text-sm">{inv.description}</p>
+              )}
+            </div>
+            <div className="flex space-x-2">
               <button
                 onClick={() => handleRespond(inv.id, true)}
-                className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"
+                className="bg-green-600 text-white px-4 py-1 rounded hover:bg-green-700 transition"
               >
                 Accept
               </button>
               <button
                 onClick={() => handleRespond(inv.id, false)}
-                className="bg-gray-400 text-white px-3 py-1 rounded hover:bg-gray-500"
+                className="bg-gray-400 text-white px-4 py-1 rounded hover:bg-gray-500 transition"
               >
                 Decline
               </button>
