@@ -51,10 +51,10 @@ export default function NewGoalPage() {
           dueDate,
           stepOrder: order.toString(),
         });
-        url = `http://localhost:8080/api/goals/${parentGoalId}/steps?${params.toString()}`;
+        url = `https://focustrack-d7r8.onrender.com/api/goals/${parentGoalId}/steps?${params.toString()}`;
         headers["Content-Type"] = "application/json";
       } else {
-        url = "http://localhost:8080/api/goals/";
+        url = "https://focustrack-d7r8.onrender.com/api/goals/";
         headers["Content-Type"] = "application/json";
       }
 

@@ -29,15 +29,15 @@ export default function HomePage() {
     const headers = { Authorization: `Bearer ${token}` };
 
     const goalsUrl = showOpenOnly
-      ? "http://localhost:8080/api/goals/?filter=true"
-      : "http://localhost:8080/api/goals/";
+      ? "https://focustrack-d7r8.onrender.com/api/goals/?filter=true"
+      : "https://focustrack-d7r8.onrender.com/api/goals/";
 
     fetch(goalsUrl, { headers })
       .then((res) => (res.ok ? res.json() : Promise.reject("Failed to fetch goals")))
       .then(setGoals)
       .catch(() => setGoals([]));
 
-    fetch("http://localhost:8080/api/sharing/my-shared-goals", { headers })
+    fetch("https://focustrack-d7r8.onrender.com/api/sharing/my-shared-goals", { headers })
       .then((res) => (res.ok ? res.json() : Promise.reject("Failed to fetch shared goals")))
       .then(setSharedGoals)
       .catch(() => setSharedGoals([]));
@@ -63,12 +63,12 @@ export default function HomePage() {
       if (!sharedGoal) return setGoalSteps((prev) => ({ ...prev, [goalId]: [] }));
       const contactId = sharedGoal.ownerID;
 
-      fetch(`http://localhost:8080/api/sharing/shared-goals/${goalId}/steps?contactId=${contactId}`, { headers })
+      fetch(`https://focustrack-d7r8.onrender.com/api/sharing/shared-goals/${goalId}/steps?contactId=${contactId}`, { headers })
         .then((res) => (res.ok ? res.json() : Promise.reject("Failed to fetch steps")))
         .then((data) => setGoalSteps((prev) => ({ ...prev, [goalId]: data })))
         .catch(() => setGoalSteps((prev) => ({ ...prev, [goalId]: [] })));
     } else {
-      fetch(`http://localhost:8080/api/goals/${goalId}/steps`, { headers })
+      fetch(`https://focustrack-d7r8.onrender.com/api/goals/${goalId}/steps`, { headers })
         .then((res) => (res.ok ? res.json() : Promise.reject("Failed to fetch steps")))
         .then((data) => setGoalSteps((prev) => ({ ...prev, [goalId]: data })))
         .catch(() => setGoalSteps((prev) => ({ ...prev, [goalId]: [] })));

@@ -17,7 +17,7 @@ export default function SearchUser() {
     setSendError('');
     try {
       const response = await fetch(
-        `http://localhost:8080/api/users/search?email=${encodeURIComponent(email)}`,
+        `https://focustrack-d7r8.onrender.com/api/users/search?email=${encodeURIComponent(email)}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -40,7 +40,7 @@ export default function SearchUser() {
     setSendError('');
     try {
       const response = await fetch(
-        `http://localhost:8080/api/users/invitations?contactId=${result.id}`,
+        `https://focustrack-d7r8.onrender.com/api/users/invitations?contactId=${result.id}`,
         {
           method: 'POST',
           headers: { Authorization: `Bearer ${token}` },

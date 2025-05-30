@@ -12,7 +12,7 @@ export default function ForgotPasswordPage() {
     setError("");
 
     try {
-      const response = await fetch(`http://localhost:8080/api/auth/forgot-password?email=${encodeURIComponent(email)}`, {
+      const response = await fetch(`https://focustrack-d7r8.onrender.com/api/auth/forgot-password?email=${encodeURIComponent(email)}`, {
         method: "POST",
       });
 
