@@ -73,7 +73,7 @@ function App() {
           path="/home"
           element={
             <ProtectedRoute>
-              <HomePage />{/* ✅ Make sure this is the one importing quotable API */}
+              <HomePage />{}
             </ProtectedRoute>
           }
         />

@@ -67,9 +67,15 @@ export default function Navbar() {
           <NavLink to="/profile" className="hover:underline">
             Profile
           </NavLink>
-          <NavLink to="/logout" className="hover:underline">
+          <button
+            onClick={() => {
+              localStorage.removeItem("token");
+              window.location.href = "/login";
+            }}
+            className="hover:underline"
+          >
             Logout
-          </NavLink>
+          </button>
         </div>
       </div>
     </nav>
