@@ -19,19 +19,10 @@ import ProfilePage from './pages/ProfilePage';
 
 function App() {
   const location = useLocation();
-  const [token, setToken] = useState(null);
-  const [authChecked, setAuthChecked] = useState(false);
-
-  useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    setToken(storedToken);
-    setAuthChecked(true);
-  }, []);
+  const token = localStorage.getItem("token");
 
   const hideNavbarOnPaths = ["/login", "/register", "/forgot-password", "/reset-password"];
   const shouldHideNavbar = hideNavbarOnPaths.includes(location.pathname);
-
-  if (!authChecked) return null; // Optional: show loader here
 
   return (
     <div>
