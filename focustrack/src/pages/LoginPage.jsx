@@ -73,6 +73,15 @@ export default function LoginPage() {
         {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
         {success && <p style={{ color: "green", textAlign: "center" }}>{success}</p>}
       </form>
+      <p style={{ fontSize: "0.85rem", color: "#555", background: "#f8f9fa", padding: "0.75rem", borderRadius: "8px", marginTop: "1.5rem", lineHeight: "1.5" }}>
+      <strong>Demo Login:</strong><br />
+      Email: <code>testuser@gmail.de</code><br />
+      Password: <code>Test2020</code><br />
+      <em style={{ fontSize: "0.8rem" }}>
+        Note: The server may take <strong>2–3 minutes</strong> to respond the first time, as it wakes from sleep mode.
+        If login seems stuck, wait a bit and try again.
+      </em>
+    </p>
     </div>
   );
 }
