@@ -32,68 +32,80 @@ export default function LoginPage() {
   };
 
   return (
-    <div style={pageStyle}>
-      <div style={leftStyle}>
-        <img src="/focustrack.png" alt="FocusTrack Logo" style={logoStyle} />
-        <h1 style={brandTextStyle}>FocusTrack</h1>
-        <p style={sloganStyle}>Plan Goals. Stay on Track.</p>
+    <div style={pageWrapperStyle}>
+      <div style={contentWrapperStyle}>
+        <div style={leftStyle}>
+          <img src="/focustrack.png" alt="FocusTrack Logo" style={logoStyle} />
+          <h1 style={brandTextStyle}>FocusTrack</h1>
+          <p style={sloganStyle}>Plan Goals. Stay on Track.</p>
+        </div>
+
+        <form onSubmit={handleLogin} style={formStyle}>
+          <h2 style={formTitle}>🎯 Login</h2>
+
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+            required
+            style={inputStyle}
+          />
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            required
+            style={inputStyle}
+          />
+
+          <button type="submit" style={buttonStyle}>Log in</button>
+
+          <p style={{ marginTop: "1rem", textAlign: "center" }}>
+            <Link to="/forgot-password" style={linkStyle}>
+              Forgotten password?
+            </Link>
+          </p>
+          <p style={{ textAlign: "center", fontSize: "0.9rem" }}>
+            Don’t have an account? <Link to="/register" style={linkStyle}>Register</Link>
+          </p>
+
+          {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
+          {success && <p style={{ color: "green", textAlign: "center" }}>{success}</p>}
+        </form>
       </div>
 
-      <form onSubmit={handleLogin} style={formStyle}>
-        <h2 style={formTitle}>🎯 Login</h2>
-
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email"
-          required
-          style={inputStyle}
-        />
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-          required
-          style={inputStyle}
-        />
-
-        <button type="submit" style={buttonStyle}>Log in</button>
-
-        <p style={{ marginTop: "1rem", textAlign: "center" }}>
-          <Link to="/forgot-password" style={linkStyle}>
-            Forgotten password?
-          </Link>
-        </p>
-        <p style={{ textAlign: "center", fontSize: "0.9rem" }}>
-          Don’t have an account? <Link to="/register" style={linkStyle}>Register</Link>
-        </p>
-
-        {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
-        {success && <p style={{ color: "green", textAlign: "center" }}>{success}</p>}
-      </form>
-      <p style={{ fontSize: "0.85rem", color: "#555", background: "#f8f9fa", padding: "0.75rem", borderRadius: "8px", marginTop: "1.5rem", lineHeight: "1.5" }}>
-      <strong>Demo Login:</strong><br />
-      Email: <code>testuser@gmail.de</code><br />
-      Password: <code>Test2020</code><br />
-      <em style={{ fontSize: "0.8rem" }}>
-        Note: The server may take <strong>2–3 minutes</strong> to respond the first time, as it wakes from sleep mode.
-        If login seems stuck, wait a bit and try again.
-      </em>
-    </p>
+      {/* Bottom note */}
+      <div style={bottomNoteStyle}>
+        <strong>Demo Login:</strong><br />
+        Email: <code>testuser@gmail.de</code><br />
+        Password: <code>Test2020</code><br />
+        <em style={{ fontSize: "0.8rem" }}>
+          Note: The server may take <strong>2–3 minutes</strong> to respond the first time, as it wakes from sleep mode.
+          If login seems stuck, wait a bit and try again.
+        </em>
+      </div>
     </div>
   );
 }
 
 // 🧩 Styling
-const pageStyle = {
+const pageWrapperStyle = {
   display: "flex",
-  justifyContent: "center",
+  flexDirection: "column",
+  justifyContent: "space-between",
   alignItems: "center",
   minHeight: "100vh",
   background: "#eaf4fb",
   padding: "2rem",
+};
+
+const contentWrapperStyle = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  flexGrow: 1,
 };
 
 const leftStyle = {
@@ -160,4 +172,16 @@ const buttonStyle = {
 const linkStyle = {
   color: "#007bff",
   textDecoration: "none",
+};
+
+const bottomNoteStyle = {
+  fontSize: "0.85rem",
+  color: "#555",
+  background: "#f8f9fa",
+  padding: "0.75rem 1.25rem",
+  borderRadius: "8px",
+  lineHeight: "1.5",
+  textAlign: "center",
+  maxWidth: "500px",
+  marginTop: "2rem",
 };
