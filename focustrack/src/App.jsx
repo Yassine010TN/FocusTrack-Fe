@@ -38,11 +38,11 @@ function App() {
       {token && !shouldHideNavbar && <Navbar />}
 
       <Routes>
-        <Route path="/" element={<Navigate to="/login" />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route path="/" element={<Navigate to={token ? "/home" : "/login"} />} />
+        <Route path="/login" element={token ? <Navigate to="/home" /> : <LoginPage />} />
+        <Route path="/register" element={token ? <Navigate to="/home" /> : <RegisterPage />} />
+        <Route path="/forgot-password" element={token ? <Navigate to="/home" /> : <ForgotPasswordPage />} />
+        <Route path="/reset-password" element={token ? <Navigate to="/home" /> : <ResetPasswordPage />} />
         <Route path="/goals/:goalId" element={<GoalDetailsPage />} />
         <Route path="/shared-goals/:goalId" element={<SharedGoalPage />} />
         <Route path="/shared-goals/:goalId" element={<GoalDetailsPage isShared={true} />} />
