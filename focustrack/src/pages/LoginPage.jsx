@@ -83,7 +83,7 @@ export default function LoginPage() {
         Password: <code>Test2025</code><br />
         <em style={{ fontSize: "0.8rem" }}>
           Note: The server may take <strong>2–3 minutes</strong> to respond the first time, as it wakes from sleep mode.
-          If login seems stuck, wait a bit and try again.
+          If login seems stuck, wait a bit, refresh the page and try again.
         </em>
       </div>
     </div>
