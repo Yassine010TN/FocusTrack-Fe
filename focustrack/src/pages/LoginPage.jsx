@@ -80,7 +80,7 @@ export default function LoginPage() {
       <div style={bottomNoteStyle}>
         <strong>Demo Login:</strong><br />
         Email: <code>testuser@gmail.de</code><br />
-        Password: <code>Test2020</code><br />
+        Password: <code>Test2025</code><br />
         <em style={{ fontSize: "0.8rem" }}>
           Note: The server may take <strong>2–3 minutes</strong> to respond the first time, as it wakes from sleep mode.
           If login seems stuck, wait a bit and try again.
