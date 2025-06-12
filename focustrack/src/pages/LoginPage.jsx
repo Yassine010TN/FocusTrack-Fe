@@ -85,6 +85,16 @@ export default function LoginPage() {
           Note: The server may take <strong>2–3 minutes</strong> to respond the first time, as it wakes from sleep mode.
           If login seems stuck, wait a bit, refresh the page and try again.
         </em>
+        <br /><br />
+        <strong>API Docs:</strong>{" "}
+        <a
+          href="https://focustrack-d7r8.onrender.com/api/swagger-ui/index.html"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ textDecoration: "underline", color: "#007bff" }}
+        >
+          Open Swagger UI
+        </a>
       </div>
     </div>
   );
