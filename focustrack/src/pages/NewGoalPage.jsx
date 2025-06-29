@@ -54,8 +54,8 @@ export default function NewGoalPage() {
       });
 
       const url = isStepGoal
-        ? `https://focustrack-d7r8.onrender.com/api/goals/${parentGoalId}/steps?${params.toString()}`
-        : `https://focustrack-d7r8.onrender.com/api/goals/?${params.toString()}`;
+        ? `https://focustrack-production.up.railway.app/api/goals/${parentGoalId}/steps?${params.toString()}`
+        : `https://focustrack-production.up.railway.app/api/goals/?${params.toString()}`;
 
       const res = await fetch(url, {
         method: "POST",

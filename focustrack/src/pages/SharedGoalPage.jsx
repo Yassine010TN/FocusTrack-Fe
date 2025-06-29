@@ -15,7 +15,7 @@ export default function SharedGoalPage() {
   useEffect(() => {
     if (!token) return;
 
-    fetch("https://focustrack-d7r8.onrender.com/api/users/me", {
+    fetch("https://focustrack-production.up.railway.app/api/users/me", {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.ok ? res.json() : Promise.reject("Failed to get current user"))
@@ -26,7 +26,7 @@ export default function SharedGoalPage() {
   useEffect(() => {
     if (!token) return;
 
-    fetch(`https://focustrack-d7r8.onrender.com/api/sharing/my-shared-goals/${goalId}`, {
+    fetch(`https://focustrack-production.up.railway.app/api/sharing/my-shared-goals/${goalId}`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.ok ? res.json() : Promise.reject("Failed to load shared goal"))
@@ -43,7 +43,7 @@ export default function SharedGoalPage() {
   useEffect(() => {
     if (!token) return;
 
-    fetch(`https://focustrack-d7r8.onrender.com/api/sharing/comments/${goalId}`, {
+    fetch(`https://focustrack-production.up.railway.app/api/sharing/comments/${goalId}`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.ok ? res.json() : Promise.reject("Failed to load comments"))
@@ -59,7 +59,7 @@ export default function SharedGoalPage() {
 
     try {
       const res = await fetch(
-        `https://focustrack-d7r8.onrender.com/api/sharing/comment?goalId=${goalId}&text=${encodeURIComponent(commentText)}`,
+        `https://focustrack-production.up.railway.app/api/sharing/comment?goalId=${goalId}&text=${encodeURIComponent(commentText)}`,
         {
           method: "POST",
           headers: {
@@ -71,7 +71,7 @@ export default function SharedGoalPage() {
       if (!res.ok) throw new Error("Failed to add comment");
 
       setCommentText("");
-      const refreshedComments = await fetch(`https://focustrack-d7r8.onrender.com/api/sharing/comments/${goalId}`, {
+      const refreshedComments = await fetch(`https://focustrack-production.up.railway.app/api/sharing/comments/${goalId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (refreshedComments.ok) {
@@ -87,14 +87,14 @@ export default function SharedGoalPage() {
     if (!window.confirm("Are you sure you want to delete this comment?")) return;
 
     try {
-      const res = await fetch(`https://focustrack-d7r8.onrender.com/api/sharing/comments/${commentId}`, {
+      const res = await fetch(`https://focustrack-production.up.railway.app/api/sharing/comments/${commentId}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
 
       if (!res.ok) throw new Error("Failed to delete comment");
 
-      const refreshedComments = await fetch(`https://focustrack-d7r8.onrender.com/api/sharing/comments/${goalId}`, {
+      const refreshedComments = await fetch(`https://focustrack-production.up.railway.app/api/sharing/comments/${goalId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (refreshedComments.ok) {

@@ -17,7 +17,7 @@ export default function SearchUser() {
     setSendError('');
     try {
       const response = await fetch(
-        `https://focustrack-d7r8.onrender.com/api/users/search?email=${encodeURIComponent(email)}`,
+        `https://focustrack-production.up.railway.app/api/users/search?email=${encodeURIComponent(email)}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -40,7 +40,7 @@ export default function SearchUser() {
     setSendError('');
     try {
       const response = await fetch(
-        `https://focustrack-d7r8.onrender.com/api/users/invitations?contactId=${result.id}`,
+        `https://focustrack-production.up.railway.app/api/users/invitations?contactId=${result.id}`,
         {
           method: 'POST',
           headers: { Authorization: `Bearer ${token}` },

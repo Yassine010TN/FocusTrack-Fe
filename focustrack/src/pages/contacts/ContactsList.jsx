@@ -11,7 +11,7 @@ export default function ContactsList() {
     setLoading(true);
     setError("");
     try {
-      const response = await fetch("https://focustrack-d7r8.onrender.com/api/users/contacts", {
+      const response = await fetch("https://focustrack-production.up.railway.app/api/users/contacts", {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!response.ok) throw new Error("Failed to fetch contacts");
@@ -32,7 +32,7 @@ export default function ContactsList() {
     if (!window.confirm("Are you sure you want to delete this contact?")) return;
     setDeletingId(contactId);
     try {
-      const response = await fetch(`https://focustrack-d7r8.onrender.com/api/users/contacts/${contactId}`, {
+      const response = await fetch(`https://focustrack-production.up.railway.app/api/users/contacts/${contactId}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });

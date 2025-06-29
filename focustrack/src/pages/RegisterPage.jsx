@@ -25,7 +25,7 @@ export default function RegisterPage() {
     }
 
     try {
-      const response = await fetch("https://focustrack-d7r8.onrender.com/api/users/register", {
+      const response = await fetch("https://focustrack-production.up.railway.app/api/users/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password, description }),

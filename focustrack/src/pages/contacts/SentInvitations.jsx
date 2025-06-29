@@ -9,7 +9,7 @@ export default function SentInvitations() {
   const fetchSentInvitations = () => {
     setLoading(true);
     setError("");
-    fetch("https://focustrack-d7r8.onrender.com/api/users/invitations/sent", {
+    fetch("https://focustrack-production.up.railway.app/api/users/invitations/sent", {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) =>
@@ -29,7 +29,7 @@ export default function SentInvitations() {
 
     try {
       const res = await fetch(
-        `https://focustrack-d7r8.onrender.com/api/users/invitations/${invitationId}`,
+        `https://focustrack-production.up.railway.app/api/users/invitations/${invitationId}`,
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${token}` },

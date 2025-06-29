@@ -9,7 +9,7 @@ export default function ReceivedInvitations() {
   const fetchReceivedInvitations = () => {
     setLoading(true);
     setError("");
-    fetch("https://focustrack-d7r8.onrender.com/api/users/invitations/received", {
+    fetch("https://focustrack-production.up.railway.app/api/users/invitations/received", {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => (res.ok ? res.json() : Promise.reject("Failed to fetch received invitations")))
@@ -24,7 +24,7 @@ export default function ReceivedInvitations() {
 
   const handleRespond = async (invitationId, accept) => {
     try {
-      const res = await fetch(`https://focustrack-d7r8.onrender.com/api/users/invitations/${invitationId}?accept=${accept}`, {
+      const res = await fetch(`https://focustrack-production.up.railway.app/api/users/invitations/${invitationId}?accept=${accept}`, {
         method: "PATCH",
         headers: { Authorization: `Bearer ${token}` },
       });

@@ -14,7 +14,7 @@ export default function LoginPage() {
     setSuccess("");
 
     try {
-      const response = await fetch("https://focustrack-d7r8.onrender.com/api/users/login", {
+      const response = await fetch("https://focustrack-production.up.railway.app/api/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -88,7 +88,7 @@ export default function LoginPage() {
         <br /><br />
         <strong>API Docs:</strong>{" "}
         <a
-          href="https://focustrack-d7r8.onrender.com/api/swagger-ui/index.html"
+          href="https://focustrack-production.up.railway.app/api/swagger-ui/index.html"
           target="_blank"
           rel="noopener noreferrer"
           style={{ textDecoration: "underline", color: "#007bff" }}

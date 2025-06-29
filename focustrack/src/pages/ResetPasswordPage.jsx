@@ -29,7 +29,7 @@ export default function ResetPasswordPage() {
       return;
     }
     try {
-      const response = await fetch("https://focustrack-d7r8.onrender.com/api/auth/reset-password", {
+      const response = await fetch("https://focustrack-production.up.railway.app/api/auth/reset-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token, newPassword }),
