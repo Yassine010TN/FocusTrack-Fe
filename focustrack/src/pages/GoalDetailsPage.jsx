@@ -84,15 +84,23 @@ export default function GoalDetailsPage() {
     }
   };
 
+
   const handleDelete = async () => {
     if (!window.confirm("Are you sure you want to delete this goal? This action cannot be undone.")) {
       return;
     }
+
+    const isStepGoal = goal?.hierarchy !== 1;
+    const deleteUrl = isStepGoal
+      ? `https://focustrack-production.up.railway.app/api/goals/steps/${goalId}`
+      : `https://focustrack-production.up.railway.app/api/goals/${goalId}`;
+
     try {
-      const res = await fetch(`https://focustrack-production.up.railway.app/api/goals/${goalId}`, {
+      const res = await fetch(deleteUrl, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
+
       if (!res.ok) throw new Error("Delete failed");
 
       alert("Goal deleted successfully!");
@@ -101,7 +109,6 @@ export default function GoalDetailsPage() {
       alert("Failed to delete goal.");
     }
   };
-
   const handleShare = async () => {
     setSharingError("");
     if (!selectedContactId) {
