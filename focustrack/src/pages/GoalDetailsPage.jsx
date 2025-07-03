@@ -139,7 +139,32 @@ export default function GoalDetailsPage() {
       setSharingLoading(false);
     }
   };
+  const handleUnshare = async (contactId) => {
+    if (!window.confirm("Are you sure you want to unshare this goal with this user?")) return;
 
+    try {
+      const res = await fetch(
+        `https://focustrack-production.up.railway.app/api/sharing/share/${goalId}/${contactId}`,
+        {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      if (!res.ok) throw new Error("Failed to unshare");
+
+      // Refresh shared users list
+      const refreshed = await fetch(`https://focustrack-production.up.railway.app/api/sharing/shared/${goalId}/users`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (refreshed.ok) {
+        const users = await refreshed.json();
+        setSharingUsers(users);
+      }
+    } catch (err) {
+      alert(err.message || "Failed to unshare goal.");
+    }
+  };
   // Add a comment
   const handleAddComment = async () => {
     if (!commentText.trim()) {
